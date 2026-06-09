@@ -31,6 +31,11 @@
   .card.missing .thumb img{display:none}
   .card.missing .thumb .ph{display:flex}
   .name{padding:9px 10px;font-size:14px;font-weight:600;text-align:center}
+  .badge{position:absolute;top:8px;left:8px;background:#c0392b;color:#fff;font-size:11px;font-weight:700;
+         letter-spacing:.4px;text-transform:uppercase;padding:3px 8px;border-radius:6px;z-index:2;
+         box-shadow:0 2px 6px rgba(0,0,0,.45)}
+  .card.reserved .thumb img{filter:brightness(.5) saturate(.85)}
+  .card.reserved .name{opacity:.55}
   footer{opacity:.4;font-size:12px;text-align:center;padding:24px}
   .lightbox{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;
             flex-direction:column;gap:14px;background:rgba(0,0,0,.9);cursor:zoom-out;padding:24px}
@@ -71,6 +76,8 @@ const SKINS = [
  "Dorito","HK","JackSparrow","Kirk","Lukk","Megumi","Ninja","OnyxRen","Pualie","TheFlash",
  "Timmy","Xray","Yuletide"
 ];
+
+const RESERVED = ["BigSmoke","Lukk","HK"];
 
 const grid  = document.getElementById('grid');
 const q     = document.getElementById('q');
@@ -115,6 +122,13 @@ function render(filter){
       else { card.classList.add('missing'); }
     });
     img.src = 'images/' + name + '.jpg';
+    if (RESERVED.includes(name)) {
+      card.classList.add('reserved');
+      const badge = document.createElement('div');
+      badge.className = 'badge';
+      badge.textContent = 'Reserved';
+      thumb.appendChild(badge);
+    }
     thumb.addEventListener('click', () => {
       if (!card.classList.contains('missing')) openLightbox(img.currentSrc || img.src, name);
     });
